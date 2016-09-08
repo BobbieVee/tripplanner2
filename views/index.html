@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+
+{% block title %}Your Trip{% endblock %}
+
+{% block content %}
+<div id="app" class="clearfix">
+  <div class="map-container col-sm-8 col-lg-9">
+    <div>
+      <div id="map-canvas"></div>
+    </div>
+  </div>
+  <div id="control-panel" class="col-sm-4 col-lg-3 clearfix">
+    <div class="col-xs-6 col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-body" id="options-panel">
+          <div>
+            <h4>Hotels</h4>
+            <select data-type="hotels" id="hotel-choices">
+            {% for hotel in hotels %}
+            <option value='{{hotel.id}}'>{{ hotel.name }}</option>
+            {% endfor %}
+            </select>
+            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
+          </div>
+          <div>
+            <h4>Restaurants</h4>
+            <select data-type="restaurants" id="restaurant-choices">
+              {% for restaurant in restaurants %}
+              <option value='{{ restaurant.id }}'>{{ restaurant.name }}</option>
+              {% endfor %}
+            </select>
+            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
+          </div>
+          <div>
+            <h4>Activities</h4>
+            <select data-type="activities" id="activity-choices">
+              {% for activity in activities %}
+              <option value='{{activity.id}}'>{{ activity.name }}</option>
+              {% endfor %}
+            </select>
+            <button data-action="add" class="btn btn-primary btn-circle pull-right">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-12">
+      <h3>
+        <span id="day-title">
+          <span>Day 2</span>
+          <button class="btn btn-xs btn-danger remove btn-circle" id='button-remove'>x</button>
+          <button class="btn btn-xs btn-primary btn-circle" id='button-add'>+</button>
+        </span>
+      </h3>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="day-buttons">
+            <button class="btn btn-circle day-btn">1</button>
+            <button class="btn btn-circle day-btn current-day">2</button>
+            <button class="btn btn-circle day-btn">3</button>
+            <button class="btn btn-circle day-btn" id="day-add">+</button>
+          </div>
+        </div>
+        <div class="panel-body" id="itinerary">
+          <div>
+            <h4>My Hotel</h4>
+            <ul class="list-group" data-type='hotels'>
+            </ul>
+          </div>
+          <div>
+            <h4>My Restaurants</h4>
+            <ul class="list-group" data-type='restaurants'>
+            </ul>
+          </div>
+          <div>
+            <h4>My Activities</h4>
+            <ul class="list-group" data-type='activities'>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfQxgWt-LSZcEmTEN8581Uq9SzZHnpuys"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/map.js"></script>
+    <script src="/js/tripplanner.js"></script>
+    <script>
+    {% autoescape false %}
+    var data = {
+      hotels: {{ hotels | json }},
+      restaurants: {{ restaurants | json }},
+      activities: {{ activities | json }}
+    };
+    {% endautoescape %}
+    </script>
+{% endblock %}
